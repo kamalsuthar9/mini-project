@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="Details.html">
+  <link rel="stylesheet" href="services.html">
+  <link rel="stylesheet" href="contact.html">
+  <link rel="stylesheet" href="towing .html">
+  <link rel="stylesheet" href="emergence.html">
+  <link rel="stylesheet" href="flat tire.html">
+  <link rel="stylesheet" href="jump start.html">
+  <link rel="stylesheet" href="about.html">
+  <link rel="stylesheet" href="stuck.html">
+  <link rel="stylesheet" href="script.js">
+  <link rel="stylesheet" href="random.html">
+  <link rel="stylesheet" href="index.html">
+  <title>On-Road Assistance Finder</title>
+</head>
+<body>
+  <header>
+    <h1>Welcome to On-Road Assistance Finder</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Details.html">Details</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="random.html">Road Help</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+    <div style="position: absolute; top: 10px; left: 10px;">
+      <img src="mechanic.png" onclick="window.location.href='index.html'" alt="Left Corner Image" style="width: 110px; height: 70px;border-radius: 20%; border : 4px solid black;">
+    </div>
+  </header>
+  <section id="home" class="hero-section">
+    <h1>On-Road Vehicle Assistance</h1>
+    <p>Fast, reliable roadside assistance when you need it most. Find help nearby with just a few clicks.</p>
+    
+    <div class="search-container">
+        <input type="text" placeholder="Enter your location or allow GPS access">
+          <button type="submit" onclick="if(document.querySelector('.search-container input').value.trim() === '') { alert('Please enter your location or allow GPS access.'); } else { alert('Finding help near your location...'); document.querySelector('.search-container input').value = ''; }">Find Help</button>
+    </div>
+    
+    <button class="emergency-btn" onclick="window.location.href='maps.html'">EMERGENCY ASSISTANCE</button>
+</section>
+  <main>
+    <h2>Our Services</h2>
+    <p>We provide a range of on-road assistance services to help you when you need it most.</p>
+    <img src="download (0).jpg" alt="Roadside Assistance" style="width:25%; height:20%;border-radius: 70px;margin-right: 5%;">
+    <img src="Breakdown-service-3.webp" alt="Roadside Assistance" style="width:25%; height:20%;border-radius: 70px; margin-right: 5%;">
+    <img src="images (0).jpg" alt="White emergency response truck with red stripe and flashing lights parked on a snowy roadside, two people standing near the front of the truck, trees covered in snow in the background, calm and professional atmosphere, text on truck reads Road Incident Response" style="width:25%; height:20%;border-radius: 70px;">
+    <p>Get immediate assistance for your vehicle when you're stuck on the road.</p>
+
+    <button onclick="window.location.href='stuck.html'">To do when you stuck on the road</button>
+  <section id="safety" class="services-section">
+    <h2 class="section-title">Vehicle Safety Tips</h2>
+    
+    <div class="services-container">
+        <div class="service-card">
+            <div class="service-icon">🔍</div>
+            <h3>Regular Maintenance</h3>
+            <p>Regularly check fluid levels, tire pressure, and get scheduled maintenance.</p>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon">🚨</div>
+            <h3>Emergency Kit</h3>
+            <p>Keep a well-stocked emergency kit in your vehicle at all times.</p>
+        </div>
+        
+        <div class="service-card">
+            <div class="service-icon">📱</div>
+            <h3>Stay Connected</h3>
+            <p>Always have a charged phone and emergency contacts readily available.</p>
+        </div>
+    </div>
+</section>
+</main>
+  <footer>
+    <div class="social-media-links" style="text-align: center; border-radius: 40px;">
+      <p>Follow us on social media:</p>
+      <a href="https://www.facebook.com" target="_blank">
+      <img src="download.png" alt="Facebook" style="width:30px; height:30px;margin-right: 1%; border-radius: 10%;">
+      </a>
+      <a href="https://www.twitter.com" target="_blank">
+      <img src="twitter.png" alt="Twitter" style="width:30px; height:30px; margin-right: 1%; border-radius: 10%;">
+      </a>
+      <a href="https://www.instagram.com" target="_blank">
+      <img src="download1.jpg" alt="Instagram" style="width:30px; height:30px;  border-radius: 10%;">
+      </a>
+    </div>
+    <p>&copy; 2023 On-Road Assistance Finder. All rights reserved.</p>
+  </footer>
+</body>
+</html>

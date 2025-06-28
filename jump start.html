@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jump Start Services - On Road Assistance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .service-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .service-form label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .service-form input, .service-form select, .service-form button {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .service-form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .service-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Jump Start Services</h1>
+        <p>Your trusted on-road vehicle assistance finder</p>
+    </header>
+    <div class="container">
+        <h2>Find Assistance Near You</h2>
+        <form class="service-form">
+            <label for="location">Enter Your Location:</label>
+            <input type="text" id="location" name="location" placeholder="e.g., City, State or ZIP Code" required>
+
+            <label for="service-type">Select Service Type:</label>
+            <select id="service-type" name="service-type" required>
+                <option value="">---select---</option>
+                <option value="jump-start">Jump Start</option>
+                <option value="tire-change">Tire Change</option>
+                <option value="fuel-delivery">Fuel Delivery</option>
+                <option value="lockout-service">Lockout Service</option>
+            </select>
+
+            <button type="submit">Find Assistance</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Delivery Assistance Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #0078D7;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #0078D7;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005BB5;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e7f3ff;
+            border: 1px solid #0078D7;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Emergency Fuel Delivery Finder</h1>
+    </header>
+    <div class="container">
+        <form id="fuelForm">
+            <div class="form-group">
+                <label for="location">Enter Your Location:</label>
+                <input type="text" id="location" placeholder="e.g., New York, NY">
+            </div>
+            <div class="form-group">
+                <label for="fuelType">Select Fuel Type:</label>
+                <select id="fuelType">
+                    <option value="">---select---</option>
+                    <option value="petrol">Petrol</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="CNG gas">CNG gas</option>
+                    <option value="electric">Electric</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button type="button" onclick="findAssistance()">Find Station</button>
+        </form>
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function findAssistance() {
+            const location = document.getElementById('location').value;
+            const fuelType = document.getElementById('fuelType').value;
+
+            if (!location) {
+                alert('Please enter your location.');
+                return;
+            }
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <p><strong>Searching for assistance...</strong></p>
+                <p>Location: ${location}</p>
+                <p>Fuel Type: ${fuelType}</p>
+                <p>Nearby assistance providers will be displayed here.</p>
+            `;
+        }
+    </script>
+</body>
+</html></html>

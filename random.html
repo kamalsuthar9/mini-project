@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoadHelp - 24/7 Roadside Assistance</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: #1a73e8;
+      padding: 15px 0;
+      color: white;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin-top: 20px;
+    }
+    
+    .main-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+    
+    h2 {
+      font-size: 20px;
+      margin: 15px 0;
+      color: #1a73e8;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #1557b0;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .step {
+      margin-bottom: 20px;
+    }
+    
+    .status-container {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 4px;
+      background-color: #e8f0fe;
+      border-left: 4px solid #1a73e8;
+    }
+    
+    .status-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .status-info {
+      margin-bottom: 10px;
+    }
+    
+    .eta {
+      font-weight: bold;
+      color: #1a73e8;
+    }
+    
+    .service-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    
+    .service-option {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .service-option:hover {
+      background-color: #f0f7ff;
+      border-color: #1a73e8;
+    }
+    
+    .service-option.selected {
+      background-color: #e8f0fe;
+      border-color: #1a73e8;
+    }
+    
+    .service-option i {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #1a73e8;
+    }
+    
+    .service-name {
+      font-weight: 500;
+    }
+    
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #1a73e8;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .map-container {
+      height: 200px;
+      background-color: #eee;
+      margin: 15px 0;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .map-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    
+    .confirmation-message {
+      background-color: #e6f4ea;
+      border-left: 4px solid #34a853;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    
+    .error-message {
+      color: #d93025;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    /* Helper styles for SVG icons */
+    .icon {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="position: absolute; top: 10px; left: 10px;">
+      <img src="mechanic.png" onclick="window.location.href='index.html'" alt="Left Corner Image" style="width: 110px; height: 70px;border-radius: 20%; border: 4px solid black;">
+
+    </div>
+    <header>
+      <h1>RoadHelp</h1>
+      <p>24/7 Roadside Assistance</p>
+    </header>
+    
+    <div class="main-content">
+      <!-- Step 1: Initial Request -->
+      <div id="step1" class="step">
+        <h2>Need help on the road?</h2>
+        <p>Tell us what's happening and we'll send help right away.</p>
+        <div class="form-group">
+          <label for="issue-type">What's the issue?</label>
+          <select id="issue-type" required>
+            <option value="">Select issue type</option>
+            <option value="flat-tire">Flat tire</option>
+            <option value="dead-battery">Dead battery/won't start</option>
+            <option value="out-of-fuel">Out of fuel</option>
+            <option value="locked-out">Locked out of vehicle</option>
+            <option value="accident">Accident/need towing</option>
+            <option value="other">Other issue</option>
+          </select>
+        </div>
+        <button id="step1-next">Get Help Now</button>
+      </div>
+      
+      <!-- Step 2: Location and Vehicle Details -->
+      <div id="step2" class="step hidden">
+        <h2>Vehicle & Location Details</h2>
+        
+        <div class="form-group">
+          <label for="vehicle-make">Vehicle Make</label>
+          <input type="text" id="vehicle-make" placeholder="e.g. Toyota" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="vehicle-model">Vehicle Model</label>
+          <input type="text" id="vehicle-model" placeholder="e.g. Camry" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="vehicle-year">Vehicle Year</label>
+          <input type="number" id="vehicle-year" placeholder="e.g. 2019" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="vehicle-color">Vehicle Color</label>
+          <input type="text" id="vehicle-color" placeholder="e.g. Silver" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="location">Your Current Location</label>
+          <input type="text" id="location" placeholder="Enter address or description" required>
+          <p style="margin-top: 5px; font-size: 0.9em;">
+            <button id="use-current-location" style="padding: 5px 10px; width: auto; font-size: 14px;">Use my current location</button>
+          </p>
+        </div>
+        
+        <div class="map-container">
+          <div class="map-placeholder">
+            <div>Location Map</div>
+            <p>Your location will appear here</p>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="additional-notes">Additional Notes (optional)</label>
+          <textarea id="additional-notes" rows="3" placeholder="Any additional details that might help us assist you better"></textarea>
+        </div>
+        
+        <button id="step2-next">Continue</button>
+      </div>
+      
+      <!-- Step 3: Service Options -->
+      <div id="step3" class="step hidden">
+        <h2>Select Service Needed</h2>
+        <p>Based on your issue, we recommend these services:</p>
+        
+        <div class="service-options" id="service-options-container">
+          <!-- Service options will be populated by JavaScript -->
+        </div>
+        
+        <button id="step3-next">Confirm & Request Service</button>
+      </div>
+      
+      <!-- Step 4: Processing -->
+      <div id="step4" class="step hidden">
+        <h2>Finding You Help</h2>
+        <p>Please wait while we locate the nearest service provider...</p>
+        <div class="loader"></div>
+      </div>
+      
+      <!-- Step 5: Confirmation -->
+      <div id="step5" class="step hidden">
+        <div class="confirmation-message">
+          <h2>Help is on the way!</h2>
+          <p>We've dispatched a service provider to your location.</p>
+        </div>
+        
+        <div class="status-container">
+          <div class="status-title">Your Assistance Details</div>
+          <div class="status-info" id="service-type-display"></div>
+          <div class="status-info" id="provider-name"></div>
+          <div class="status-info">ETA: <span class="eta" id="eta-display">Calculating...</span></div>
+          <div class="status-info" id="distance-display"></div>
+        </div>
+        
+        <div class="map-container">
+          <div class="map-placeholder">
+            <div>Provider Location</div>
+            <p>Service provider's route to your location</p>
+          </div>
+        </div>
+        
+        <button id="cancel-request">Cancel Request</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let userData = {
+      issueType: '',
+      vehicleMake: '',
+      vehicleModel: '',
+      vehicleYear: '',
+      vehicleColor: '',
+      location: '',
+      coordinates: null,
+      additionalNotes: '',
+      selectedService: ''
+    };
+    
+    // Service providers database (simulated)
+    const serviceProviders = [
+      { id: 1, name: "Fast Towing Service", services: ["towing", "flat-tire"], rating: 4.8, distance: 3.2 },
+      { id: 2, name: "Battery Boost Pros", services: ["dead-battery", "electrical"], rating: 4.9, distance: 2.5 },
+      { id: 3, name: "Quick Tire Change", services: ["flat-tire"], rating: 4.7, distance: 1.8 },
+      { id: 4, name: "Fuel Delivery Express", services: ["out-of-fuel"], rating: 4.6, distance: 4.1 },
+      { id: 5, name: "Auto Locksmith 24/7", services: ["locked-out"], rating: 4.8, distance: 5.6 },
+      { id: 6, name: "All-In-One Roadside Help", services: ["towing", "flat-tire", "dead-battery", "out-of-fuel", "locked-out"], rating: 4.5, distance: 7.2 }
+    ];
+    
+    // Issue to service mapping
+    const issueToServiceMap = {
+      'flat-tire': ['tire-change', 'towing'],
+      'dead-battery': ['jump-start', 'towing'],
+      'out-of-fuel': ['fuel-delivery'],
+      'locked-out': ['locksmith'],
+      'accident': ['towing'],
+      'other': ['towing', 'tire-change', 'jump-start', 'fuel-delivery', 'locksmith']
+    };
+    
+    // Service information
+    const serviceInfo = {
+      'towing': { name: 'Towing Service', eta: '30-40 minutes', price: '$75+' },
+      'tire-change': { name: 'Tire Change', eta: '20-30 minutes', price: '$50' },
+      'jump-start': { name: 'Jump Start', eta: '15-25 minutes', price: '$45' },
+      'fuel-delivery': { name: 'Fuel Delivery', eta: '20-30 minutes', price: '$40+' },
+      'locksmith': { name: 'Locksmith Service', eta: '25-35 minutes', price: '$65' }
+    };
+    
+    // DOM Elements
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    const step4 = document.getElementById('step4');
+    const step5 = document.getElementById('step5');
+    const step1NextBtn = document.getElementById('step1-next');
+    const step2NextBtn = document.getElementById('step2-next');
+    const step3NextBtn = document.getElementById('step3-next');
+    const useCurrentLocationBtn = document.getElementById('use-current-location');
+    const serviceOptionsContainer = document.getElementById('service-options-container');
+    const cancelRequestBtn = document.getElementById('cancel-request');
+    const issueTypeSelect = document.getElementById('issue-type');
+    
+    // Event Listeners
+    step1NextBtn.addEventListener('click', () => {
+      const issueType = document.getElementById('issue-type').value;
+      if (!issueType) {
+        alert('Please select an issue type');
+        return;
+      }
+      
+      userData.issueType = issueType;
+      step1.classList.add('hidden');
+      step2.classList.remove('hidden');
+    });
+    
+    step2NextBtn.addEventListener('click', () => {
+      // Validate and collect vehicle details
+      const vehicleMake = document.getElementById('vehicle-make').value;
+      const vehicleModel = document.getElementById('vehicle-model').value;
+      const vehicleYear = document.getElementById('vehicle-year').value;
+      const vehicleColor = document.getElementById('vehicle-color').value;
+      const location = document.getElementById('location').value;
+      const additionalNotes = document.getElementById('additional-notes').value;
+      
+      if (!vehicleMake || !vehicleModel || !vehicleYear || !vehicleColor || !location) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      userData.vehicleMake = vehicleMake;
+      userData.vehicleModel = vehicleModel;
+      userData.vehicleYear = vehicleYear;
+      userData.vehicleColor = vehicleColor;
+      userData.location = location;
+      userData.additionalNotes = additionalNotes;
+      
+      populateServiceOptions();
+      step2.classList.add('hidden');
+      step3.classList.remove('hidden');
+    });
+    
+    step3NextBtn.addEventListener('click', () => {
+      if (!userData.selectedService) {
+        alert('Please select a service');
+        return;
+      }
+      
+      step3.classList.add('hidden');
+      step4.classList.remove('hidden');
+      
+      // Simulate finding service provider
+      setTimeout(() => {
+        findServiceProvider();
+        step4.classList.add('hidden');
+        step5.classList.remove('hidden');
+        startETAUpdates();
+      }, 3000);
+    });
+    
+    useCurrentLocationBtn.addEventListener('click', () => {
+      // Simulate getting current location
+      document.getElementById('location').value = 'Getting your location...';
+      
+      setTimeout(() => {
+        // Simulate geolocation result
+        document.getElementById('location').value = '123 Main St, Anytown, USA';
+        userData.coordinates = { lat: 40.7128, lng: -74.0060 };
+      }, 1500);
+    });
+    
+    cancelRequestBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to cancel your assistance request?')) {
+        resetForm();
+        step5.classList.add('hidden');
+        step1.classList.remove('hidden');
+      }
+    });
+    
+    // Functions
+    function populateServiceOptions() {
+      serviceOptionsContainer.innerHTML = '';
+      
+      const recommendedServices = issueToServiceMap[userData.issueType] || ['towing'];
+      
+      recommendedServices.forEach(service => {
+        const info = serviceInfo[service];
+        
+        const serviceDiv = document.createElement('div');
+        serviceDiv.className = 'service-option';
+        serviceDiv.dataset.service = service;
+        serviceDiv.innerHTML = `
+          <div class="service-name">${info.name}</div>
+          <div>ETA: ${info.eta}</div>
+          <div>Est. ${info.price}</div>
+        `;
+        
+        serviceDiv.addEventListener('click', () => {
+          document.querySelectorAll('.service-option').forEach(el => {
+            el.classList.remove('selected');
+          });
+          serviceDiv.classList.add('selected');
+          userData.selectedService = service;
+        });
+        
+        serviceOptionsContainer.appendChild(serviceDiv);
+      });
+    }
+    
+    function findServiceProvider() {
+      // Simulate finding the nearest service provider
+      const availableProviders = serviceProviders.filter(provider => 
+        provider.services.includes(userData.issueType) || 
+        provider.services.includes('towing')
+      );
+      
+      // Sort by distance
+      availableProviders.sort((a, b) => a.distance - b.distance);
+      
+      const selectedProvider = availableProviders[0];
+      
+      // Calculate estimated arrival time (simulated)
+      const etaMinutes = Math.round(selectedProvider.distance * 5 + 10);
+      const etaText = `${etaMinutes} minutes`;
+      
+      // Update the confirmation screen
+      document.getElementById('service-type-display').textContent = 
+        `Service: ${serviceInfo[userData.selectedService].name}`;
+      document.getElementById('provider-name').textContent = 
+        `Provider: ${selectedProvider.name} (${selectedProvider.rating} ★)`;
+      document.getElementById('eta-display').textContent = etaText;
+      document.getElementById('distance-display').textContent = 
+        `Distance: ${selectedProvider.distance.toFixed(1)} miles away`;
+    }
+    
+    function startETAUpdates() {
+      // Simulate ETA updates
+      let minutes = parseInt(document.getElementById('eta-display').textContent);
+      
+      const etaInterval = setInterval(() => {
+        minutes--;
+        
+        if (minutes <= 0) {
+          document.getElementById('eta-display').textContent = 'Arrived!';
+          clearInterval(etaInterval);
+        } else {
+          document.getElementById('eta-display').textContent = `${minutes} minutes`;
+        }
+      }, 20000); // Update every 20 seconds (for demo purposes)
+    }
+    
+    function resetForm() {
+      // Reset form data
+      userData = {
+        issueType: '',
+        vehicleMake: '',
+        vehicleModel: '',
+        vehicleYear: '',
+        vehicleColor: '',
+        location: '',
+        coordinates: null,
+        additionalNotes: '',
+        selectedService: ''
+      };
+      
+      // Clear form fields
+      document.getElementById('issue-type').value = '';
+      document.getElementById('vehicle-make').value = '';
+      document.getElementById('vehicle-model').value = '';
+      document.getElementById('vehicle-year').value = '';
+      document.getElementById('vehicle-color').value = '';
+      document.getElementById('location').value = '';
+      document.getElementById('additional-notes').value = '';
+    }
+    
+    // Server communication functions (simulated)
+    async function sendAssistanceRequest(data) {
+      // In a real application, this would send the data to your backend server
+      console.log('Sending assistance request:', data);
+      
+      // Simulate API call
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            success: true,
+            requestId: 'REQ-' + Math.floor(Math.random() * 10000),
+            provider: {
+              name: 'Quick Response Towing',
+              eta: '25 minutes',
+              distance: '3.2 miles'
+            }
+          });
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

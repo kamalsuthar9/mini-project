@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flat Tire Assistance Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 1rem 0;
+        }
+        .container {
+            margin: 2rem auto;
+            max-width: 600px;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Flat Tire Assistance Finder</h1>
+    </header>
+    <div class="container">
+        <p>Click the button below to find nearby on-road assistance for a flat tire.</p>
+        <button onclick="findAssistance()">find Assistance</button>
+        <div id="result"></div>
+        <p>If this button is denied</p>
+        <p>click below button to go directly to the near by puncher shops</p>
+
+        <button onclick="window.location.href='https://www.google.com/maps/search/tire+repair'">find tire repair services</button>
+    </div>
+
+    <script>
+        function findAssistance() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById("result").innerText = "Geolocation is not supported by this browser.";
+            }
+        }
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Simulate finding assistance (replace with actual API call if needed)
+            const assistanceMessage = `Assistance found near your location! Latitude: ${latitude}, Longitude: ${longitude}`;
+            document.getElementById("result").innerText = assistanceMessage;
+
+            // Example: Redirect to a map or service provider
+            if (location.protocol === 'https:') {
+                window.location.href = `https://www.google.com/maps/search/tire+repair/@${latitude},${longitude}`;
+            } else {
+                document.getElementById("result").innerText = "Geolocation requires a secure context (HTTPS). Please use a secure connection.";
+            }
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("result").innerText = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("result").innerText = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("result").innerText = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("result").innerText = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
